@@ -1,0 +1,11 @@
+.btn {
+    position: relative;
+    left: 35px; top: 20px;
+    background: #6f5499;
+    padding: 10px 20px;
+    display: inline-block;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+}
