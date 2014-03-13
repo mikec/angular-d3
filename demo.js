@@ -31,10 +31,7 @@ angular.module('demo', ['ngd3'])
                 var val = v + (Math.floor((Math.random()*10)+1) - 5);
                 var date = new Date();
                 date.setDate(currentDate.getDate() + j);
-                data[city][j] = {
-                    date: date,
-                    value: val
-                };
+                data[city][j] = [date, val];
             }
 
         }
