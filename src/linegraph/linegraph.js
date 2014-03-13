@@ -5,10 +5,10 @@ angular.module('ngd3.linegraph', [])
     var autoInc = 0;
 
     return {
-        scope: {
-            data: '='
-        },
         link: function($scope, $element, $attrs) {
+
+            var dataCollection = $attrs.lineGraph;
+            if(!dataCollection) return;
 
             var id = 'line_graph_' + autoInc;
             $element.attr('id', id);
@@ -60,7 +60,7 @@ angular.module('ngd3.linegraph', [])
 
             var initialRender = true;
 
-            $scope.$watch('data', function(data) {
+            $scope.$watchCollection(dataCollection, function(data) {
 
                 var lines = [];
                 for(var lineTitle in data) {
@@ -131,7 +131,7 @@ angular.module('ngd3.linegraph', [])
 
                 initialRender = false;
 
-            }, true);
+            });
 
         }
     }
