@@ -30,8 +30,12 @@
     <body ng-app="demo">
 
         <div class="header">
-            <a ui-sref="linegraph">linegraph</a>
-            <a ui-sref="graph">graph</a>
+            <div ui-sref-active="active" class="nav-item">
+                <a ui-sref="linegraph">linegraph</a>
+            </div>
+            <div ui-sref-active="active" class="nav-item">
+                <a ui-sref="graph">graph</a>
+            </div>
         </div>
 
         <div class="content">
