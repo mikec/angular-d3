@@ -51,3 +51,15 @@ body {
 .demo-graph {
     height: 500px;
 }
+
+/* axis */
+
+.x-axis-graph {
+    height: 50px;
+}
+
+.y-axis-graph {
+    height: 200px;
+}
+
+
