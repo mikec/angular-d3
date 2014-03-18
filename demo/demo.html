@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+    <head>
+
+        <meta http-equiv="content-type" content="text/html; charset=UTF8">
+
+        <!-- external -->
+        <script type="text/javascript" src="../bower_components/d3/d3.js"></script>
+        <script type="text/javascript" src="../bower_components/angular/angular.js"></script>
+
+        <!-- graph -->
+        <script type="text/javascript" src="../src/graph/graph.js"></script>
+        <link rel="stylesheet" href="../src/linegraph/linegraph.css" />
+
+        <!-- linegraph -->
+        <script type="text/javascript" src="../src/linegraph/linegraph.js"></script>
+        <link rel="stylesheet" href="../src/linegraph/linegraph.css" />
+
+        <!-- ngd3 js -->
+        <script type="text/javascript" src="../src/services.js"></script>
+        <script type="text/javascript" src="../src/ngd3.js"></script>
+
+        <!-- demo specific -->
+        <script type="text/javascript" src="demo.js"></script>
+        <link rel="stylesheet" href="demo.css" />
+
+    </head>
+
+    <body ng-app="demo">
+
+        <div ng-controller="DemoCtrl">
+
+            <div line-graph="randomData"></div>
+
+            <div class="btn" ng-click="generateData()">Generate Data</div>
+
+        </div>
+
+    </body>
+
+</html>
