@@ -44,3 +44,10 @@ body {
     font-size: 24px;
     cursor: pointer;
 }
+
+
+/* graph */
+
+.demo-graph {
+    height: 500px;
+}

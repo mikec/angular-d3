@@ -1,9 +1,9 @@
 angular.module('ngd3.services', [])
 
-.provider('axis', function() {
+.factory('axes', [function() {
 
-    this.$get = [function() {
-        
-    }];
+    function axes() {
 
-});
+    }
+
+}]);

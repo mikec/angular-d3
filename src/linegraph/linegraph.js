@@ -107,8 +107,7 @@ angular.module('ngd3.linegraph', [])
                 svg.selectAll(".item")
                     .select("path")
                     .transition()
-                    .attr("d", function(d) { 
-                        var x = 0;
+                    .attr("d", function(d) {
                         return line(d.points); 
                     });
 
