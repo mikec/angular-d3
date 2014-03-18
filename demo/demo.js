@@ -1,6 +1,24 @@
-angular.module('demo', ['ngd3'])
+angular.module('demo', ['ui.router', 'ngd3'])
 
-.controller('DemoCtrl', ['$scope', function($scope) {
+.config(['$stateProvider', '$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise("/linegraph");
+
+    $stateProvider
+        .state('linegraph', {
+            url: '/linegraph',
+            templateUrl: 'partials/linegraph.html',
+            controller: 'LinegraphCtrl'
+        })
+        .state('graph', {
+            url: '/graph',
+            templateUrl: 'partials/graph.html',
+            controller: 'LinegraphCtrl'
+        });
+}])
+
+.controller('LinegraphCtrl', ['$scope', function($scope) {
 
     $scope.generateData = function() {
         $scope.randomData = getGeneratedData();

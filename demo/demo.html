@@ -29,12 +29,13 @@
 
     <body ng-app="demo">
 
-        <div ng-controller="DemoCtrl">
+        <div class="header">
+            <a ui-sref="linegraph">linegraph</a>
+            <a ui-sref="graph">graph</a>
+        </div>
 
-            <div line-graph="randomData"></div>
-
-            <div class="btn" ng-click="generateData()">Generate Data</div>
-
+        <div class="content">
+            <div ui-view></div>
         </div>
 
     </body>
