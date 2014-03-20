@@ -1,15 +1,14 @@
-angular.module('ngd3.graph', ['ngd3.services'])
+angular.module('ngd3.graph', ['ngd3.axis'])
 
 .directive('graph', [function() {
 
     var autoInc = 0;
 
     return {
-        template: '<svg>' +
-                    '<g class="container">' +
-                        '<g class="x axis"></g>' +
-                        '<g class="y axis"></g>' +
-                    '</g>' +
+        scope: { domain: '=' },
+        template: '<svg x-margin="35" y-margin="20">' +
+                    '<g axis orientation="x" domain="xDomain"></g>' +
+                    '<g axis orientation="y" domain="yDomain"></g>' +
                   '</svg>',
         link: function($scope, $element, $attrs) {
 
@@ -17,45 +16,10 @@ angular.module('ngd3.graph', ['ngd3.services'])
             $element.attr('id', id);
             autoInc++;
 
-            var svgNode = d3.select('#'+id).select("svg");
-            var containerNode = svgNode.select('.container');
-            var xAxisNode = containerNode.select('.x.axis');
-            var yAxisNode = containerNode.select('.y.axis');
-
-            var margin = {top: 20, right: 50, bottom: 30, left: 50};
-            var hMargin = margin.right + margin.left;
-            var vMargin = margin.top + margin.bottom;
-
-            var width = $element.prop('offsetWidth');
-            var height = $element.prop('offsetHeight');
-
-            var x = d3.time.scale()
-                .range([0, width - hMargin]);
-
-            var y = d3.scale.linear()
-                .range([height - vMargin, 0]);
-
-            var xAxis = d3.svg.axis()
-                .scale(x)
-                .orient("bottom");
-
-            var yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left");
-
-            svgNode
-                .attr("width", width)
-                .attr("height", height);
-
-            containerNode
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-            xAxisNode
-                .attr("transform", "translate(0," + (height - vMargin) + ")")
-                .call(xAxis);
-
-            yAxisNode
-                .call(yAxis);
+            $scope.$watchCollection('domain', function(d) {
+                $scope.xDomain = d.x;
+                $scope.yDomain = d.y;
+            });
 
         }
     }

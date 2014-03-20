@@ -14,7 +14,7 @@ function($stateProvider, $urlRouterProvider) {
         .state('graph', {
             url: '/graph',
             templateUrl: 'partials/graph.html',
-            controller: 'LinegraphCtrl'
+            controller: 'GraphCtrl'
         })
         .state('axis', {
             url: '/axis',
@@ -66,83 +66,21 @@ function($stateProvider, $urlRouterProvider) {
 
 .controller('GraphCtrl', ['$scope', function($scope) {
 
-    $scope.generateData = function() {
-        $scope.randomData = getGeneratedData();
-    }
+    var d1 = new Date();
+    var d2 = new Date(d1.getTime() + 365 * 24 * 60 * 60 * 1000);
+    $scope.xDomain = [d1, d2];
 
-    $scope.generateData();
-
-    function getGeneratedData() {
-        var data = {};
-
-        var cities = [
-            "New York",
-            "Boston",
-            "Seattle",
-            "Denver"
-        ];
-
-        var numDataPoints = 100;
-        var currentDate = new Date();
-
-        for(var i in cities) {
-
-            var city = cities[i];
-            data[city] = [];
-
-            var v = (i * 15);
-            for(var j=0; j < numDataPoints; j++) {
-                var val = v + (Math.floor((Math.random()*10)+1) - 5);
-                var date = new Date();
-                date.setDate(currentDate.getDate() + j);
-                data[city][j] = [date, val];
-            }
-
-        }
-
-        return data;
-    };
+    $scope.yDomain = [0, 1000];
 
 }])
 
 .controller('AxisCtrl', ['$scope', function($scope) {
 
-    $scope.generateData = function() {
-        $scope.randomData = getGeneratedData();
-    }
+    var d1 = new Date();
+    var d2 = new Date(d1.getTime() + 365 * 24 * 60 * 60 * 1000);
+    $scope.xDomain = [d1, d2];
 
-    $scope.generateData();
-
-    function getGeneratedData() {
-        var data = {};
-
-        var cities = [
-            "New York",
-            "Boston",
-            "Seattle",
-            "Denver"
-        ];
-
-        var numDataPoints = 100;
-        var currentDate = new Date();
-
-        for(var i in cities) {
-
-            var city = cities[i];
-            data[city] = [];
-
-            var v = (i * 15);
-            for(var j=0; j < numDataPoints; j++) {
-                var val = v + (Math.floor((Math.random()*10)+1) - 5);
-                var date = new Date();
-                date.setDate(currentDate.getDate() + j);
-                data[city][j] = [date, val];
-            }
-
-        }
-
-        return data;
-    };
+    $scope.yDomain = [0, 1000];
 
 }]);
 
