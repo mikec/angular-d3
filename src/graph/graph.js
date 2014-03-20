@@ -6,9 +6,11 @@ angular.module('ngd3.graph', ['ngd3.axis'])
 
     return {
         scope: { domain: '=' },
+        transclude: true,
         template: '<svg x-margin="35" y-margin="20">' +
                     '<g axis orientation="x" domain="xDomain"></g>' +
                     '<g axis orientation="y" domain="yDomain"></g>' +
+                    '<g ng-transclude></g>' +
                   '</svg>',
         link: function($scope, $element, $attrs) {
 

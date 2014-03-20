@@ -1,6 +1,61 @@
-angular.module('ngd3.linegraph', [])
+angular.module('ngd3.linegraph', ['ngd3.graph', 'ngd3.multiline'])
 
 .directive('lineGraph', [function() {
+
+    var autoInc = 0;
+
+    return {
+        template: '<div graph domain="{x:xDomain, y:yDomain}">' +
+                    '<g multiline="lines"></g>' +
+                  '</div>',
+        link: function($scope, $element, $attrs) {
+
+            var dataCollection = $attrs.lineGraph;
+            if(!dataCollection) return;
+
+            var id = 'line_graph_' + autoInc;
+            $element.attr('id', id);
+            autoInc++;
+
+            $scope.lines = [];
+
+            $scope.$watchCollection(dataCollection, function(data) {
+
+                var lines = [];
+                for(var lineTitle in data) {
+                    lines.push({
+                        title: lineTitle,
+                        points: data[lineTitle].map(function(d) {
+                            return {
+                                x: d[0],
+                                y: d[1]
+                            };
+                        })
+                    });
+                }
+
+                $scope.xDomain = [
+                    d3.min(lines, function(ln) { return d3.min(ln.points, function(v) { return v.x; }); }),
+                    d3.max(lines, function(ln) { return d3.max(ln.points, function(v) { return v.x; }); })
+                ];
+
+                $scope.yDomain = [
+                    d3.min(lines, function(ln) { return d3.min(ln.points, function(v) { return v.y; }); }),
+                    d3.max(lines, function(ln) { return d3.max(ln.points, function(v) { return v.y; }); })
+                ];
+
+                $scope.lines.length = 0;
+                for(var i in lines) {
+                    $scope.lines[i] = lines[i];
+                }
+
+            });
+        }
+    }
+
+}]);
+
+/*.directive('lineGraph', [function() {
 
     var autoInc = 0;
 
@@ -135,4 +190,4 @@ angular.module('ngd3.linegraph', [])
         }
     }
 
-}]);
+}]);*/
