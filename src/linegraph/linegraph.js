@@ -1,13 +1,15 @@
-angular.module('ngd3.linegraph', ['ngd3.graph', 'ngd3.multiline'])
+angular.module('ngd3.linegraph', ['ngd3.multiline'])
 
 .directive('lineGraph', [function() {
 
     var autoInc = 0;
 
     return {
-        template: '<div graph domain="{x:xDomain, y:yDomain}">' +
+        template: '<svg x-margin="35" y-margin="20">' +
+                    '<g axis orientation="x" domain="xDomain"></g>' +
+                    '<g axis orientation="y" domain="yDomain"></g>' +
                     '<g multiline="lines"></g>' +
-                  '</div>',
+                  '</svg>',
         link: function($scope, $element, $attrs) {
 
             var dataCollection = $attrs.lineGraph;
