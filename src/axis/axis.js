@@ -1,23 +1,20 @@
-angular.module('ngd3.axis', [])
+angular.module('ngd3.axis', ['ngd3.services'])
 
-.directive('axis', [function() {
+.directive('axis', ['graph', function(graph) {
 
     var autoInc = 0;
-    var defaultMarginX = 30;
-    var defaultMarginY = 20;
 
     return {
-        scope: {
-            domain: '='
-        },
         link: function($scope, $element, $attrs) {
 
             var id = 'axis_' + autoInc;
             $element.attr('id', id);
             autoInc++;
 
+            var domainScope = $attrs.domain;
+
             var xyAxisNode = d3.select('#' + id);
-            var parentSvg = getParentSVG();
+            var SVG = graph.getSVG($element);
 
             var orientY = $attrs.orientation && 
                             $attrs.orientation.toLowerCase() == 'y';
@@ -25,18 +22,7 @@ angular.module('ngd3.axis', [])
             $element.addClass('axis');
             $element.addClass(orientY ? 'y' : 'x');
 
-            var xMargAttr = parentSvg.attr('x-margin');
-            var xMargin = xMargAttr ? parseInt(xMargAttr) : defaultMarginX;
-
-            var yMargAttr = parentSvg.attr('y-margin');
-            var yMargin = yMargAttr ? parseInt(yMargAttr) : defaultMarginY;
-
-            var rStart = orientY ? 
-                parentSvg.prop('offsetHeight') - (yMargin * 2) : 0;
-            var rStop = orientY ? 0 : 
-                parentSvg.prop('offsetWidth') - (xMargin * 2);
-
-            var xyScale = getScale(false, rStart, rStop);
+            var xyScale = orientY ? SVG.yLinearScale : SVG.xLinearScale;
 
             var xyAxis = d3.svg.axis()
                 .scale(xyScale)
@@ -44,11 +30,11 @@ angular.module('ngd3.axis', [])
 
             var xTrans, yTrans;
             if(!orientY) {
-                xTrans = parentSvg.prop('offsetHeight') - yMargin;
-                yTrans = xMargin;
+                xTrans = SVG.graphHeight - SVG.yMargin;
+                yTrans = SVG.xMargin;
             } else {
-                xTrans = yMargin;
-                yTrans = xMargin;
+                xTrans = SVG.yMargin;
+                yTrans = SVG.xMargin;
             }
             xyAxisNode
                 .attr("transform", 
@@ -56,35 +42,31 @@ angular.module('ngd3.axis', [])
 
             xyAxisNode.call(xyAxis);
 
-            $scope.$watchCollection('domain', function(d) {  
-                if(d) {
-                    if(d[0] instanceof Date) {
-                        xyScale = getScale(true, rStart, rStop);
-                        xyAxis.scale(xyScale);
-                    }
-                    xyScale.domain(d);
-                    xyAxisNode.call(xyAxis);
-                }
-            });
-
-            function getScale(isTimeScale, rangeStart, rangeStop) {
-                var s = (isTimeScale ?
-                            d3.time.scale() : d3.scale.linear());
-                return s.range([rangeStart, rangeStop]);
+            if(domainScope) {
+                // domain is defined directly by the domain attribute 
+                $scope.$watchCollection(domainScope, function(d) {  
+                    setAxisDomain(d);
+                });
             }
 
-            function getParentSVG() {
-                var p = $element.parent();
-                for(var i=0; i < 25; i++) {
-                    if(p[0] && 
-                        p[0].tagName && 
-                            p[0].tagName.toLowerCase() == 'svg') {
-                        return p;
-                    } else {
-                        p = p.parent();
+            if(SVG.dataScope) {
+                // domain can be calculated from the current data-scope.
+                // (data-scope is defined as an attribute of the parent SVG element)
+                $scope.$watch(SVG.dataScope, function(data) {
+                    var domains = graph.getDomains(data);
+                    setAxisDomain(orientY ? domains.y : domains.x);
+                });
+            }
+
+            function setAxisDomain(domain) {
+                if(domain) {
+                    if(domain[0] instanceof Date) {
+                        xyScale = orientY ? SVG.yTimeScale : SVG.xTimeScale;
+                        xyAxis.scale(xyScale);
                     }
+                    xyScale.domain(domain);
+                    xyAxisNode.call(xyAxis);
                 }
-                return null;
             }
 
         }

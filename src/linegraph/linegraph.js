@@ -1,60 +1,24 @@
 angular.module('ngd3.linegraph', ['ngd3.multiline'])
 
 .directive('lineGraph', [function() {
-
-    var autoInc = 0;
-
     return {
-        template: '<svg x-margin="35" y-margin="20">' +
-                    '<g axis orientation="x" domain="xDomain"></g>' +
-                    '<g axis orientation="y" domain="yDomain"></g>' +
-                    '<g multiline="lines"></g>' +
+        template: '<svg x-margin="35" y-margin="20" data-scope="">' +
+                    '<g axis orientation="x"></g>' +
+                    '<g axis orientation="y"></g>' +
+                    '<g multiline></g>' +
                   '</svg>',
-        link: function($scope, $element, $attrs) {
-
-            var dataCollection = $attrs.lineGraph;
-            if(!dataCollection) return;
-
-            var id = 'line_graph_' + autoInc;
-            $element.attr('id', id);
-            autoInc++;
-
-            $scope.lines = [];
-
-            $scope.$watchCollection(dataCollection, function(data) {
-
-                var lines = [];
-                for(var lineTitle in data) {
-                    lines.push({
-                        title: lineTitle,
-                        points: data[lineTitle].map(function(d) {
-                            return {
-                                x: d[0],
-                                y: d[1]
-                            };
-                        })
-                    });
+        compile: function compile(tElement, tAttrs) {
+            return {
+                pre: function preLink($scope, $element, $attrs) {
+                    var dataScope = $attrs.lineGraph;
+                    if(!dataScope) return;
+                    // set the data-scope attribute of the SVG element
+                    angular.element($element[0].firstChild)
+                        .attr('data-scope', dataScope);
                 }
-
-                $scope.xDomain = [
-                    d3.min(lines, function(ln) { return d3.min(ln.points, function(v) { return v.x; }); }),
-                    d3.max(lines, function(ln) { return d3.max(ln.points, function(v) { return v.x; }); })
-                ];
-
-                $scope.yDomain = [
-                    d3.min(lines, function(ln) { return d3.min(ln.points, function(v) { return v.y; }); }),
-                    d3.max(lines, function(ln) { return d3.max(ln.points, function(v) { return v.y; }); })
-                ];
-
-                $scope.lines.length = 0;
-                for(var i in lines) {
-                    $scope.lines[i] = lines[i];
-                }
-
-            });
+            }
         }
     }
-
 }]);
 
 /*.directive('lineGraph', [function() {

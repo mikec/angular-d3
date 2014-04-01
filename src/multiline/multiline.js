@@ -1,6 +1,6 @@
-angular.module('ngd3.multiline', [])
+angular.module('ngd3.multiline', ['ngd3.services'])
 
-.directive('multiline', [function() {
+.directive('multiline', ['graph', function(graph) {
 
     var autoInc = 0;
 
@@ -12,25 +12,44 @@ angular.module('ngd3.multiline', [])
             $element.attr('id', id);
             autoInc++;
 
-            var dataCollection = $attrs.multiline;
-            if(!dataCollection) return;
+            var SVG = graph.getSVG($element);
 
-            var svg = getParentSVG();
+            var xScale = SVG.xLinearScale;
+            var yScale = SVG.yTimeScale;
 
-            $scope.$watch(dataCollection, function(data) {
+            $scope.$watch(SVG.dataScope, function(data) {
+
+                if(!data) return;
+
+                var domains = graph.getDomains(data);
+
+                var lines = [];
+                for(var lineTitle in data) {
+                    lines.push({
+                        title: lineTitle,
+                        points: data[lineTitle].map(function(d) {
+                            return {
+                                x: d[0],
+                                y: d[1]
+                            };
+                        })
+                    });
+                }
 
                 var color = d3.scale.category10();
-                color.domain(data.map(function(ln) { return ln.title; }));
+                color.domain(lines.map(function(ln) { return ln.title; }));
 
                 var line = d3.svg.line()
                     .interpolate("basis") // for curved lines
-                    .x(function(d) { return x(d.x); })
-                    .y(function(d) { return y(d.y); });
+                    .x(function(d) { return xScale(d.x); })
+                    .y(function(d) { return yScale(d.y); });
 
-                //var items = svg.selectAll(".item")
+                xScale.domain(domains.x);
+                yScale.domain(domains.y);
+
                 var elemNode = d3.select('#'+id);
                 var items = elemNode.selectAll(".item")
-                    .data(data)
+                    .data(lines)
                     .enter().append("g")
                     .attr("class", "item");
 
@@ -47,20 +66,6 @@ angular.module('ngd3.multiline', [])
                     });
 
             });
-
-            function getParentSVG() {
-                var p = $element.parent();
-                for(var i=0; i < 25; i++) {
-                    if(p[0] && 
-                        p[0].tagName && 
-                            p[0].tagName.toLowerCase() == 'svg') {
-                        return p;
-                    } else {
-                        p = p.parent();
-                    }
-                }
-                return null;
-            }
         }
 
     }
