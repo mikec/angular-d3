@@ -14,8 +14,8 @@ angular.module('ngd3.multiline', ['ngd3.services'])
 
             var SVG = graph.getSVG($element);
 
-            var xScale = SVG.xLinearScale;
-            var yScale = SVG.yTimeScale;
+            var xScale = SVG.xTimeScale;
+            var yScale = SVG.yLinearScale;
 
             $scope.$watch(SVG.dataScope, function(data) {
 
@@ -51,7 +51,8 @@ angular.module('ngd3.multiline', ['ngd3.services'])
                 var items = elemNode.selectAll(".item")
                     .data(lines)
                     .enter().append("g")
-                    .attr("class", "item");
+                    .attr("class", "item")
+                    .attr("transform", "translate(" + SVG.xMargin + "," + SVG.yMargin + ")");
 
                 items.append("path")
                     .attr("class", "line")
