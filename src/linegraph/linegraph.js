@@ -2,7 +2,7 @@ angular.module('ngd3.linegraph', ['ngd3.multiline'])
 
 .directive('lineGraph', [function() {
     return {
-        template: '<svg id="test" x-margin="35" y-margin="20" data-scope="">' +
+        template: '<svg x-margin="35" y-margin="20" data-scope="">' +
                     '<g axis orientation="x"></g>' +
                     '<g axis orientation="y"></g>' +
                     '<g multiline></g>' +
