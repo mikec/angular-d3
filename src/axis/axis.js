@@ -1,6 +1,6 @@
 angular.module('ngd3.axis', ['ngd3.services'])
 
-.directive('axis', ['DataSet', 'SvgElement',  function(DataSet, SvgElement) {
+.directive('axis', ['DataSet', 'GraphElement',  function(DataSet, GraphElement) {
 
     var autoInc = 0;
 
@@ -15,8 +15,7 @@ angular.module('ngd3.axis', ['ngd3.services'])
 
             var xyAxisNode = d3.select('#' + id);
 
-            var parentSvg = SvgElement.findSvgParent($element);
-            var svg = new SvgElement(parentSvg);
+            var graph = GraphElement.findByChild($element);
 
             var orientY = $attrs.orientation && 
                             $attrs.orientation.toLowerCase() == 'y';
@@ -24,7 +23,7 @@ angular.module('ngd3.axis', ['ngd3.services'])
             $element.addClass('axis');
             $element.addClass(orientY ? 'y' : 'x');
 
-            var xyScale = orientY ? svg.yLinearScale : svg.xLinearScale;
+            var xyScale = orientY ? graph.yLinearScale : graph.xLinearScale;
 
             var xyAxis = d3.svg.axis()
                 .scale(xyScale)
@@ -32,11 +31,11 @@ angular.module('ngd3.axis', ['ngd3.services'])
 
             var xTrans, yTrans;
             if(!orientY) {
-                xTrans = svg.graphHeight - svg.yMargin;
-                yTrans = svg.xMargin;
+                xTrans = graph.graphHeight - graph.yMargin;
+                yTrans = graph.xMargin;
             } else {
-                xTrans = svg.yMargin;
-                yTrans = svg.xMargin;
+                xTrans = graph.yMargin;
+                yTrans = graph.xMargin;
             }
             xyAxisNode
                 .attr("transform", 
@@ -51,10 +50,10 @@ angular.module('ngd3.axis', ['ngd3.services'])
                 });
             }
 
-            if(svg.dataScope) {
+            if(graph.dataScope) {
                 // domain can be calculated from the current data-scope.
                 // (data-scope is defined as an attribute of the parent svg element)
-                $scope.$watch(svg.dataScope, function(data) {
+                $scope.$watch(graph.dataScope, function(data) {
                     var dataSet = new DataSet(data);
                     setAxisDomain(orientY ? dataSet.y : dataSet.x);
                 });
@@ -63,7 +62,7 @@ angular.module('ngd3.axis', ['ngd3.services'])
             function setAxisDomain(domain) {
                 if(domain) {
                     if(domain[0] instanceof Date) {
-                        xyScale = orientY ? svg.yTimeScale : svg.xTimeScale;
+                        xyScale = orientY ? graph.yTimeScale : graph.xTimeScale;
                         xyAxis.scale(xyScale);
                     }
                     xyScale.domain(domain);

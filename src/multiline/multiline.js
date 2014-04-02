@@ -1,7 +1,7 @@
 angular.module('ngd3.multiline', ['ngd3.services'])
 
-.directive('multiline', ['DataSet', 'SvgElement', 
-function(DataSet, SvgElement) {
+.directive('multiline', ['DataSet', 'GraphElement', 
+function(DataSet, GraphElement) {
 
     var autoInc = 0;
 
@@ -15,8 +15,7 @@ function(DataSet, SvgElement) {
 
             var xScale, yScale;
 
-            var parentSvg = SvgElement.findSvgParent($element);
-            var svg = new SvgElement(parentSvg);
+            var graph = GraphElement.findByChild($element);
 
             var elemNode = d3.select('#'+id);
 
@@ -25,12 +24,12 @@ function(DataSet, SvgElement) {
                 .x(function(d) { return xScale(d.x); })
                 .y(function(d) { return yScale(d.y); });
 
-            $scope.$watch(svg.dataScope, function(data) {
+            $scope.$watch(graph.dataScope, function(data) {
 
                 if(!data) return;
 
-                xScale = svg.xTimeScale;
-                yScale = svg.yLinearScale;
+                xScale = graph.xTimeScale;
+                yScale = graph.yLinearScale;
 
                 var dataSet = new DataSet(data);
 
@@ -56,7 +55,7 @@ function(DataSet, SvgElement) {
                 var items = elemNode.selectAll(".item")
                     .data(lines).enter().append("g")
                     .attr("class", "item")
-                    .attr("transform", "translate(" + svg.xMargin + "," + svg.yMargin + ")");
+                    .attr("transform", "translate(" + graph.xMargin + "," + graph.yMargin + ")");
 
                 items = elemNode.selectAll(".item");
 

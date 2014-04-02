@@ -49,12 +49,14 @@ angular.module('ngd3.services', [])
 
 }])
 
-.factory('SvgElement', ['scale', function(scale) {
+.factory('GraphElement', ['scale', function(scale) {
 
     var defaultMarginX = 30;
     var defaultMarginY = 20;
 
-    function SvgElement(element) {
+    var graphElementInstances = [];
+
+    function GraphElement(element) {
         this.element = element;
         // x and y margin is the padding needed for each axis
         this.xMargin = getIntAttr(this.element, 'x-margin', defaultMarginX);
@@ -77,19 +79,32 @@ angular.module('ngd3.services', [])
         // time scales
         this.xTimeScale = scale.getTimeScale(this.xRangeStart, this.xRangeStop);
         this.yTimeScale = scale.getTimeScale(this.yRangeStart, this.yRangeStop);
-        // name of the data property within the current SVG's scope
+        // name of the data property within the current graph scope
         this.dataScope = this.element.attr('data-scope');
+
+        // store the newly instantiated graph element
+        graphElementInstances.push(this);
     }
 
-    SvgElement.findSvgParent = function(svgChildElement) {
-        var p = svgChildElement.parent();
+    GraphElement.findByChild = function(childElement) {
+        var p = childElement.parent();
         for(var i=0; i < 25; i++) {
             if(p[0] && 
                 p[0].tagName && 
                     p[0].tagName.toLowerCase() == 'svg') {
-                return p;
+                return getGraphElementInstance(p);
             } else {
                 p = p.parent();
+            }
+        }
+        return null;
+    }
+
+    function getGraphElementInstance(svgElem) {
+        for(var i in graphElementInstances) {
+            var e = graphElementInstances[i];
+            if(angular.equals(svgElem, e.element)) {
+                return e;
             }
         }
         return null;
@@ -100,7 +115,7 @@ angular.module('ngd3.services', [])
         return attrStr ? parseInt(attrStr) : defaultValue;
     }
 
-    return SvgElement;
+    return GraphElement;
 }])
 
 .factory('scale', [function() {
