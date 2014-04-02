@@ -1,6 +1,7 @@
 angular.module('ngd3.multiline', ['ngd3.services'])
 
-.directive('multiline', ['graph', function(graph) {
+.directive('multiline', ['DataSet', 'SvgElement', 
+function(DataSet, SvgElement) {
 
     var autoInc = 0;
 
@@ -12,10 +13,10 @@ angular.module('ngd3.multiline', ['ngd3.services'])
             $element.attr('id', id);
             autoInc++;
 
-            var SVG = graph.getSVG($element);
+            var xScale, yScale;
 
-            var xScale = SVG.xTimeScale;
-            var yScale = SVG.yLinearScale;
+            var parentSvg = SvgElement.findSvgParent($element);
+            var svg = new SvgElement(parentSvg);
 
             var elemNode = d3.select('#'+id);
 
@@ -24,15 +25,14 @@ angular.module('ngd3.multiline', ['ngd3.services'])
                 .x(function(d) { return xScale(d.x); })
                 .y(function(d) { return yScale(d.y); });
 
-            $scope.$watch(SVG.dataScope, function(data) {
+            $scope.$watch(svg.dataScope, function(data) {
 
                 if(!data) return;
 
-                SVG = graph.getSVG($element);
-                xScale = SVG.xTimeScale;
-                yScale = SVG.yLinearScale;
+                xScale = svg.xTimeScale;
+                yScale = svg.yLinearScale;
 
-                var domains = graph.getDomains(data);
+                var dataSet = new DataSet(data);
 
                 var lines = [];
                 for(var lineTitle in data) {
@@ -50,13 +50,13 @@ angular.module('ngd3.multiline', ['ngd3.services'])
                 var color = d3.scale.category10();
                 color.domain(lines.map(function(ln) { return ln.title; }));
 
-                xScale.domain(domains.x);
-                yScale.domain(domains.y);
+                xScale.domain(dataSet.x);
+                yScale.domain(dataSet.y);
 
                 var items = elemNode.selectAll(".item")
                     .data(lines).enter().append("g")
                     .attr("class", "item")
-                    .attr("transform", "translate(" + SVG.xMargin + "," + SVG.yMargin + ")");
+                    .attr("transform", "translate(" + svg.xMargin + "," + svg.yMargin + ")");
 
                 items = elemNode.selectAll(".item");
 
