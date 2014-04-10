@@ -78,7 +78,7 @@ function($stateProvider, $urlRouterProvider) {
 
     function getGeneratedData() {
         var d = [];
-        for(var i = 0; i < 35; i++) {
+        for(var i = 0; i < 55; i++) {
             d.push(Math.random()*maxVal);
         }
         return d;
