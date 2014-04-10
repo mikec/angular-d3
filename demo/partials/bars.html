@@ -1,7 +1,10 @@
 <div>
-    <h1>bars</h1>
+    
     <svg graph data-scope="barData" x-margin="35" y-margin="20" >
-        <g axis orientation="x"></g>
-        <g axis orientation="y"></g>
+        <g axis domain="xDomain" orientation="x"></g>
+        <g axis domain="yDomain" orientation="y"></g>
+        <g bars></g>
     </svg>
+
+    <div class="btn" ng-click="generateData()">Generate Data</div>
 </div>

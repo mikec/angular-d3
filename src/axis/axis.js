@@ -50,17 +50,6 @@ angular.module('ngd3.axis', ['ngd3.services'])
                 });
             }
 
-            /*if(graph.dataScope) {
-                // domain can be calculated from the current data-scope.
-                // (data-scope is defined as an attribute of the parent svg element)
-                $scope.$watch(graph.dataScope, function(data) {
-                    if(data) {
-                        var dataSet = new DataSet(data);
-                        setAxisDomain(orientY ? dataSet.y : dataSet.x);
-                    }
-                });
-            }*/
-
             function setAxisDomain(domain) {
                 if(domain) {
                     if(domain[0] instanceof Date) {

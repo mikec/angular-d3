@@ -65,7 +65,25 @@ function($stateProvider, $urlRouterProvider) {
 }])
 
 .controller('BarsCtrl', ['$scope', function($scope) {
-    $scope.barData = [3, 5, 8, 10, 15];
+
+    var maxVal = 100;
+
+    $scope.generateData = function() {
+        $scope.barData = getGeneratedData();
+        $scope.xDomain = [0, 5];
+        $scope.yDomain = [0, maxVal];
+    }
+
+    $scope.generateData();
+
+    function getGeneratedData() {
+        var d = [];
+        for(var i = 0; i < 35; i++) {
+            d.push(Math.random()*maxVal);
+        }
+        return d;
+    }
+
 }])
 
 .controller('AxisCtrl', ['$scope', function($scope) {
