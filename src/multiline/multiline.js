@@ -1,7 +1,7 @@
 angular.module('ngd3.multiline', ['ngd3.services'])
 
-.directive('multiline', ['DataSet', 'GraphElement', 
-function(DataSet, GraphElement) {
+.directive('multiline', ['domain', 'GraphElement', 
+function(domain, GraphElement) {
 
     var autoInc = 0;
 
@@ -31,8 +31,6 @@ function(DataSet, GraphElement) {
                 xScale = graph.xTimeScale;
                 yScale = graph.yLinearScale;
 
-                var dataSet = new DataSet(data);
-
                 var lines = [];
                 for(var lineTitle in data) {
                     lines.push({
@@ -49,8 +47,9 @@ function(DataSet, GraphElement) {
                 var color = d3.scale.category10();
                 color.domain(lines.map(function(ln) { return ln.title; }));
 
-                xScale.domain(dataSet.x);
-                yScale.domain(dataSet.y);
+                var domains = domain.getLineDataDomains(data);
+                xScale.domain(domains.x);
+                yScale.domain(domains.y);
 
                 var items = elemNode.selectAll(".item")
                     .data(lines).enter().append("g")

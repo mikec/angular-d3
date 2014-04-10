@@ -11,10 +11,10 @@ function($stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/linegraph.html',
             controller: 'LinegraphCtrl'
         })
-        .state('graph', {
-            url: '/graph',
-            templateUrl: 'partials/graph.html',
-            controller: 'GraphCtrl'
+        .state('bargraph', {
+            url: '/bargraph',
+            templateUrl: 'partials/bars.html',
+            controller: 'BarsCtrl'
         })
         .state('axis', {
             url: '/axis',
@@ -64,14 +64,8 @@ function($stateProvider, $urlRouterProvider) {
 
 }])
 
-.controller('GraphCtrl', ['$scope', function($scope) {
-
-    var d1 = new Date();
-    var d2 = new Date(d1.getTime() + 365 * 24 * 60 * 60 * 1000);
-    $scope.xDomain = [d1, d2];
-
-    $scope.yDomain = [0, 1000];
-
+.controller('BarsCtrl', ['$scope', function($scope) {
+    $scope.barData = [3, 5, 8, 10, 15];
 }])
 
 .controller('AxisCtrl', ['$scope', function($scope) {

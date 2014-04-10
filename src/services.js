@@ -1,54 +1,5 @@
 angular.module('ngd3.services', [])
 
-.factory('DataSet', [function() {
-
-    function DataSet(dataSet) {
-        angular.extend(this, dataSet);
-        this.x = this.getDomainX();
-        this.y = this.getDomainY();
-    }
-
-    DataSet.prototype.getDomainX = function() {
-        return this.getDomain();
-    }
-
-    DataSet.prototype.getDomainY = function() {
-        return this.getDomain(true);
-    }
-
-    DataSet.prototype.getDomain = function(isDomainY) {
-        var domain = [];
-        var minArray = [];
-        var maxArray = [];
-        var dataIndex = isDomainY ? 1 : 0;
-        for(var i in this) {
-            var arr = this[i];
-            if(!isFunction(arr)) {
-                minArray.push(
-                    d3.min(arr, function(d) {
-                        return d[dataIndex];
-                    })
-                );
-                maxArray.push(
-                    d3.max(arr, function(d) {
-                        return d[dataIndex];
-                    })
-                );
-            }
-        }
-        domain[0] = d3.min(minArray);
-        domain[1] = d3.max(maxArray);
-        return domain;
-    }
-
-    function isFunction(fn) {
-        return fn && {}.toString.call(fn) === '[object Function]';
-    }
-
-    return DataSet;
-
-}])
-
 .factory('GraphElement', ['scale', function(scale) {
 
     var defaultMarginX = 30;
@@ -116,6 +67,36 @@ angular.module('ngd3.services', [])
     }
 
     return GraphElement;
+}])
+
+.factory('domain', [function() {
+
+    function domain() { }
+
+    domain.getLineDataDomains = function(data) {
+        var xVals = [];
+        var yVals = [];
+
+        for(var lineName in data) {
+            var lineData = data[lineName];
+            for(var i in lineData) {
+                xVals.push(lineData[i][0]);
+                yVals.push(lineData[i][1]);
+            }
+        }
+
+        return {
+            x: domain.getDomain(xVals),
+            y: domain.getDomain(yVals)
+        };
+    }
+
+    domain.getDomain = function(data) {
+        return [d3.min(data), d3.max(data)]
+    }
+
+    return domain;
+
 }])
 
 .factory('scale', [function() {

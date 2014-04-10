@@ -1,6 +1,6 @@
 angular.module('ngd3.axis', ['ngd3.services'])
 
-.directive('axis', ['DataSet', 'GraphElement',  function(DataSet, GraphElement) {
+.directive('axis', ['GraphElement',  function(GraphElement) {
 
     var autoInc = 0;
 
@@ -50,14 +50,16 @@ angular.module('ngd3.axis', ['ngd3.services'])
                 });
             }
 
-            if(graph.dataScope) {
+            /*if(graph.dataScope) {
                 // domain can be calculated from the current data-scope.
                 // (data-scope is defined as an attribute of the parent svg element)
                 $scope.$watch(graph.dataScope, function(data) {
-                    var dataSet = new DataSet(data);
-                    setAxisDomain(orientY ? dataSet.y : dataSet.x);
+                    if(data) {
+                        var dataSet = new DataSet(data);
+                        setAxisDomain(orientY ? dataSet.y : dataSet.x);
+                    }
                 });
-            }
+            }*/
 
             function setAxisDomain(domain) {
                 if(domain) {
