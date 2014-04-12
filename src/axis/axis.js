@@ -41,16 +41,7 @@ angular.module('ngd3.axis', ['ngd3.services'])
                 .attr("transform", 
                         "translate(" + yTrans + "," + xTrans + ")");
 
-            xyAxisNode.call(xyAxis);
-
-            if(domainScope) {
-                // domain is defined directly by the domain attribute 
-                $scope.$watchCollection(domainScope, function(d) {  
-                    setAxisDomain(d);
-                });
-            }
-
-            function setAxisDomain(domain) {
+            $scope.$watchCollection(domainScope, function(domain) {  
                 if(domain) {
                     if(domain[0] instanceof Date) {
                         xyScale = orientY ? graph.yTimeScale : graph.xTimeScale;
@@ -59,7 +50,7 @@ angular.module('ngd3.axis', ['ngd3.services'])
                     xyScale.domain(domain);
                     xyAxisNode.call(xyAxis);
                 }
-            }
+            });
 
         }
     }
