@@ -1,0 +1,79 @@
+body {
+    padding: 0;
+    margin: 0;
+    font: 10px sans-serif;
+}
+
+.disable-select {
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
+.header {
+    background: #6f5499;
+    overflow: auto;
+}
+
+.header .nav-item {
+    float: left;
+    border-right: 1px solid white;
+    padding: 0; margin: 0;
+}
+
+.header .nav-item.active {
+    background: rgba(255,255,255,.2);
+}
+
+.header a {
+    display: inline-block;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.btn {
+    position: relative;
+    left: 35px; top: 20px;
+    background: #6f5499;
+    padding: 10px 20px;
+    display: inline-block;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+/* graph */
+
+.demo-graph {
+    height: 300px;
+}
+
+/* lines */
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+/* axis */
+
+.x-axis-graph {
+    height: 50px;
+}
+
+.y-axis-graph {
+    height: 200px;
+}
+
+
