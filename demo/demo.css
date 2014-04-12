@@ -4,6 +4,13 @@ body {
     font: 10px sans-serif;
 }
 
+.disable-select {
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+
 .header {
     background: #6f5499;
     overflow: auto;
