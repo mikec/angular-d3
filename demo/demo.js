@@ -3,30 +3,36 @@ angular.module('demo', ['ui.router', 'ngd3'])
 .config(['$stateProvider', '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/linegraph");
+    $urlRouterProvider.otherwise("/lines");
 
     $stateProvider
-        .state('linegraph', {
-            url: '/linegraph',
-            templateUrl: 'partials/linegraph.html',
-            controller: 'LinegraphCtrl'
+        .state('lines', {
+            url: '/lines',
+            templateUrl: 'partials/lines.html',
+            controller: 'LinesCtrl'
         })
-        .state('bargraph', {
-            url: '/bargraph',
+        .state('bars', {
+            url: '/bars',
             templateUrl: 'partials/bars.html',
             controller: 'BarsCtrl'
         })
-        .state('axis', {
-            url: '/axis',
-            templateUrl: 'partials/axis.html',
-            controller: 'AxisCtrl'
+        .state('axes', {
+            url: '/axes',
+            templateUrl: 'partials/axes.html',
+            controller: 'AxesCtrl'
         });
 }])
 
-.controller('LinegraphCtrl', ['$scope', function($scope) {
+.controller('LinesCtrl', ['$scope', 'domain', 
+function($scope, domain) {
 
     $scope.generateData = function() {
         $scope.randomData = getGeneratedData();
+
+        var domains = domain.getLineDataDomains($scope.randomData);
+        $scope.domainX = domains.x;
+        $scope.domainY = domains.y;
+        
     }
 
     $scope.generateData();
@@ -86,7 +92,7 @@ function($stateProvider, $urlRouterProvider) {
 
 }])
 
-.controller('AxisCtrl', ['$scope', function($scope) {
+.controller('AxesCtrl', ['$scope', function($scope) {
 
     var d1 = new Date();
     var d2 = new Date(d1.getTime() + 365 * 24 * 60 * 60 * 1000);

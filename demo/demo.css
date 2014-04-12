@@ -52,6 +52,13 @@ body {
     height: 300px;
 }
 
+/* lines */
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
 /* axis */
 
 .x-axis-graph {
