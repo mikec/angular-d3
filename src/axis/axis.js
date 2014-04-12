@@ -56,7 +56,7 @@ angular.module('ngd3.axis', [])
             }
 
             function renderAxis() {
-                setAxisScale(domain[0] instanceof Date);
+                setAxisScale(domain && domain[0] instanceof Date);
                 xyScale.domain(domain);
                 xyAxisNode.call(xyAxis);
             }
