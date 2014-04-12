@@ -12,6 +12,7 @@ angular.module('ngd3.axis', [])
             autoInc++;
 
             var domainScope = $attrs.domain;
+            var domain;
             var xyAxisNode = d3.select('#' + id);
 
             var orientY = $attrs.orientation && 
@@ -22,11 +23,12 @@ angular.module('ngd3.axis', [])
 
             if($scope.graphScopeSet) {
 
-                var xyScale = orientY ? $scope.linearScaleY : $scope.linearScaleX;
+                var xyScale;
 
                 var xyAxis = d3.svg.axis()
-                    .scale(xyScale)
                     .orient(orientY ? "left" : "bottom");
+
+                setAxisScale();
 
                 var xTrans, yTrans;
                 if(!orientY) {
@@ -40,16 +42,30 @@ angular.module('ngd3.axis', [])
                     .attr("transform", 
                             "translate(" + yTrans + "," + xTrans + ")");
 
-                $scope.$watchCollection(domainScope, function(domain) {  
+                $scope.$watchCollection(domainScope, function(d) {
+                    domain = d;
                     if(domain) {
-                        if(domain[0] instanceof Date) {
-                            xyScale = orientY ? $scope.timeScaleY : $scope.timeScaleX;
-                            xyAxis.scale(xyScale);
-                        }
-                        xyScale.domain(domain);
-                        xyAxisNode.call(xyAxis);
+                        renderAxis();
                     }
                 });
+
+                $scope.$on('graphResize', function(event) {
+                    renderAxis();
+                });
+
+            }
+
+            function renderAxis() {
+                setAxisScale(domain[0] instanceof Date);
+                xyScale.domain(domain);
+                xyAxisNode.call(xyAxis);
+            }
+
+            function setAxisScale(isTimeScale) {
+                xyScale = orientY ? 
+                            (isTimeScale ? $scope.timeScaleY : $scope.linearScaleY) : 
+                            (isTimeScale ? $scope.timeScaleX : $scope.linearScaleX);
+                xyAxis.scale(xyScale);
             }
 
         }
