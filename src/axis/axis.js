@@ -1,6 +1,6 @@
-angular.module('ngd3.axis', ['ngd3.services'])
+angular.module('ngd3.axis', [])
 
-.directive('axis', ['GraphElement',  function(GraphElement) {
+.directive('axis', [function() {
 
     var autoInc = 0;
 
@@ -12,10 +12,7 @@ angular.module('ngd3.axis', ['ngd3.services'])
             autoInc++;
 
             var domainScope = $attrs.domain;
-
             var xyAxisNode = d3.select('#' + id);
-
-            var graph = GraphElement.findByChild($element);
 
             var orientY = $attrs.orientation && 
                             $attrs.orientation.toLowerCase() == 'y';
@@ -23,34 +20,37 @@ angular.module('ngd3.axis', ['ngd3.services'])
             $element.addClass('axis');
             $element.addClass(orientY ? 'y' : 'x');
 
-            var xyScale = orientY ? graph.yLinearScale : graph.xLinearScale;
+            if($scope.graphScopeSet) {
 
-            var xyAxis = d3.svg.axis()
-                .scale(xyScale)
-                .orient(orientY ? "left" : "bottom");
+                var xyScale = orientY ? $scope.linearScaleY : $scope.linearScaleX;
 
-            var xTrans, yTrans;
-            if(!orientY) {
-                xTrans = graph.graphHeight - graph.yMargin;
-                yTrans = graph.xMargin;
-            } else {
-                xTrans = graph.yMargin;
-                yTrans = graph.xMargin;
-            }
-            xyAxisNode
-                .attr("transform", 
-                        "translate(" + yTrans + "," + xTrans + ")");
+                var xyAxis = d3.svg.axis()
+                    .scale(xyScale)
+                    .orient(orientY ? "left" : "bottom");
 
-            $scope.$watchCollection(domainScope, function(domain) {  
-                if(domain) {
-                    if(domain[0] instanceof Date) {
-                        xyScale = orientY ? graph.yTimeScale : graph.xTimeScale;
-                        xyAxis.scale(xyScale);
-                    }
-                    xyScale.domain(domain);
-                    xyAxisNode.call(xyAxis);
+                var xTrans, yTrans;
+                if(!orientY) {
+                    xTrans = $scope.graphHeight - $scope.marginY;
+                    yTrans = $scope.marginX;
+                } else {
+                    xTrans = $scope.marginY;
+                    yTrans = $scope.marginX;
                 }
-            });
+                xyAxisNode
+                    .attr("transform", 
+                            "translate(" + yTrans + "," + xTrans + ")");
+
+                $scope.$watchCollection(domainScope, function(domain) {  
+                    if(domain) {
+                        if(domain[0] instanceof Date) {
+                            xyScale = orientY ? $scope.timeScaleY : $scope.timeScaleX;
+                            xyAxis.scale(xyScale);
+                        }
+                        xyScale.domain(domain);
+                        xyAxisNode.call(xyAxis);
+                    }
+                });
+            }
 
         }
     }

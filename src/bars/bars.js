@@ -1,7 +1,6 @@
-angular.module('ngd3.bars', ['ngd3.services'])
+angular.module('ngd3.bars', [])
 
-.directive('bars', ['GraphElement', 
-function(GraphElement) {
+.directive('bars', [function() {
 
     var autoInc = 0;
 
@@ -15,40 +14,39 @@ function(GraphElement) {
             $element.attr('id', id);
             autoInc++;
 
-            var graph = GraphElement.findByChild($element);
-
             var elemNode = d3.select('#'+id);
 
-            $scope.$watch(graph.dataScope, function(data) {
-                var xScale = graph.xTimeScale;
-                var yScale = graph.yLinearScale;
+            $scope.$watch($attrs.bars, function(data) {
+                if($scope.graphScopeSet) {
+                    var xScale = $scope.timeScaleX;
+                    var yScale = $scope.linearScaleY;
 
-                var bars = elemNode.selectAll("g")
-                                    .data(data);
+                    var bars = elemNode.selectAll("g")
+                                        .data(data);
 
-                bars.transition()
-                    .attr("transform", function(d, i) {
-                        var x = (graph.xMargin + barThickness) + i * barThickness;
-                        var y = yScale(d) + graph.yMargin;
-                        return "translate(" + x + "," + y + ")"; 
-                    });
+                    bars.transition()
+                        .attr("transform", function(d, i) {
+                            var x = ($scope.marginX + barThickness) + i * barThickness;
+                            var y = yScale(d) + $scope.marginY;
+                            return "translate(" + x + "," + y + ")"; 
+                        });
 
+                    bars.enter().append("g")
+                        .attr("transform", function(d, i) {
+                            var x = ($scope.marginX + barThickness) + i * barThickness;
+                            var y = yScale(d) + $scope.marginY;
+                            return "translate(" + x + "," + y + ")"; 
+                        })
+                        .append("rect")
+                        .attr("class", "bar")
+                        .attr("width", barThickness - 1);
 
-                bars.enter().append("g")
-                    .attr("transform", function(d, i) {
-                        var x = (graph.xMargin + barThickness) + i * barThickness;
-                        var y = yScale(d) + graph.yMargin;
-                        return "translate(" + x + "," + y + ")"; 
-                    })
-                    .append("rect")
-                    .attr("class", "bar")
-                    .attr("width", barThickness - 1);
-
-                bars.select("rect")
-                    .transition()
-                    .attr("height", function(d) {
-                        return graph.graphInnerHeight - yScale(d);
-                    });
+                    bars.select("rect")
+                        .transition()
+                        .attr("height", function(d) {
+                            return $scope.graphInnerHeight - yScale(d);
+                        });
+                }
 
             });
 
