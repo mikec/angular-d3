@@ -4,6 +4,7 @@ angular.module('ngd3.bars', [])
 
     var autoInc = 0;
     var defaultBarThickness = 20;
+    var defaultBarSpacing = 1;
 
     return {
 
@@ -17,6 +18,8 @@ angular.module('ngd3.bars', [])
 
             var barThickness = $attrs.thickness > 0 ? 
                                     parseInt($attrs.thickness) : defaultBarThickness;
+            var spacing = $attrs.spacing > 0 ?
+                                parseInt($attrs.spacing) : defaultBarSpacing;
 
             $scope.$watch($attrs.bars, function(data) {
                 if($scope.graphScopeSet) {
@@ -41,7 +44,7 @@ angular.module('ngd3.bars', [])
                         })
                         .append("rect")
                         .attr("class", "bar")
-                        .attr("width", barThickness - 1);
+                        .attr("width", barThickness - spacing);
 
                     bars.select("rect")
                         .transition()
