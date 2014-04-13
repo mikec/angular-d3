@@ -4,8 +4,6 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
-        //scripts: grunt.file.expand('**/*.js'),
-
         copy: {
             demo_required_js: {
                 src: [
@@ -17,14 +15,6 @@ module.exports = function(grunt) {
                 dest: 'demo/lib/',
                 flatten: true,
                 expand: true
-            },
-            demo_required_css: {
-                src: [
-                    'dist/angular-d3.css'
-                ],
-                dest: 'demo/lib/',
-                flatten: true,
-                expand: true
             }
         },
 
@@ -32,10 +22,6 @@ module.exports = function(grunt) {
             angular_d3_js: {
                 src: grunt.file.expand('src/**/*.js'),
                 dest: 'dist/angular-d3.js'
-            },
-            angular_d3_css: {
-                src: grunt.file.expand('src/**/*.css'),
-                dest: 'dist/angular-d3.css'
             }
         }
 
@@ -46,9 +32,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', [
         'concat:angular_d3_js',
-        'concat:angular_d3_css',
-        'copy:demo_required_js',
-        'copy:demo_required_css'
+        'copy:demo_required_js'
     ]);
 
 };
