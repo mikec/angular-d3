@@ -20,7 +20,14 @@ module.exports = function(grunt) {
 
         concat: {
             angular_d3_js: {
-                src: grunt.file.expand('src/**/*.js'),
+                src: [
+                    'src/ngd3.js',
+                    'src/services.js',
+                    'src/directives.js',
+                    'src/axis/axis.js',
+                    'src/bars/bars.js',
+                    'src/lines/lines.js'
+                ],
                 dest: 'dist/angular-d3.js'
             }
         },

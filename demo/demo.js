@@ -1,4 +1,10 @@
-angular.module('demo', ['ui.router', 'ngd3'])
+angular.module('demo', [
+    'ui.router',
+    'ngd3',
+    'ngd3.axis',
+    'ngd3.bars',
+    'ngd3.lines'
+])
 
 .config(['$stateProvider', '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {

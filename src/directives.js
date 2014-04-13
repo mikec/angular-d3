@@ -1,6 +1,4 @@
-angular.module('ngd3.graph', ['ngd3.services'])
-
-.directive('graph', ['scale',  function(scale) {
+ngd3.directive('graph', ['scale',  function(scale) {
 
     var defaultMarginX = 30;
     var defaultMarginY = 20;

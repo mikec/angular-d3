@@ -1,6 +1,4 @@
-angular.module('ngd3.services', [])
-
-.factory('domain', [function() {
+ngd3.factory('domain', [function() {
 
     function domain() { }
 
