@@ -23,12 +23,20 @@ module.exports = function(grunt) {
                 src: grunt.file.expand('src/**/*.js'),
                 dest: 'dist/angular-d3.js'
             }
+        },
+
+        'gh-pages': {
+            options: {
+                base: 'demo'
+            },
+            src: ['**']
         }
 
     });
 
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-gh-pages');
 
     grunt.registerTask('default', [
         'concat:angular_d3_js',
