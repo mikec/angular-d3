@@ -3,18 +3,20 @@ angular.module('ngd3.bars', [])
 .directive('bars', [function() {
 
     var autoInc = 0;
+    var defaultBarThickness = 20;
 
     return {
 
         link: function($scope, $element, $attrs) {
-
-            var barThickness = 20;
 
             var id = 'bars_' + autoInc;
             $element.attr('id', id);
             autoInc++;
 
             var elemNode = d3.select('#'+id);
+
+            var barThickness = $attrs.thickness > 0 ? 
+                                    parseInt($attrs.thickness) : defaultBarThickness;
 
             $scope.$watch($attrs.bars, function(data) {
                 if($scope.graphScopeSet) {

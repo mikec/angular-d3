@@ -90,7 +90,7 @@ function($scope, domain) {
 
     function getGeneratedData() {
         var d = [];
-        for(var i = 0; i < 55; i++) {
+        for(var i = 0; i < 10; i++) {
             d.push(Math.random()*maxVal);
         }
         return d;
