@@ -31,20 +31,20 @@ angular.module('ngd3.bars', [])
 
                     bars.transition()
                         .attr("transform", function(d, i) {
-                            var x = ($scope.marginX + barThickness) + i * barThickness;
+                            var x = ($scope.marginX + spacing) + i * (barThickness + spacing);
                             var y = yScale(d) + $scope.marginY;
                             return "translate(" + x + "," + y + ")"; 
                         });
 
                     bars.enter().append("g")
                         .attr("transform", function(d, i) {
-                            var x = ($scope.marginX + barThickness) + i * barThickness;
+                            var x = ($scope.marginX + spacing) + i * (barThickness + spacing);
                             var y = yScale(d) + $scope.marginY;
                             return "translate(" + x + "," + y + ")"; 
                         })
                         .append("rect")
                         .attr("class", "bar")
-                        .attr("width", barThickness - spacing);
+                        .attr("width", barThickness);
 
                     bars.select("rect")
                         .transition()
