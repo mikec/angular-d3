@@ -7,6 +7,9 @@ ngd3.directive('graph', ['scale',  function(scale) {
         compile: function (tElement, tAttrs, transclude) {
 
             function setLayoutData(scope, element) {
+                // firefox fix: set svg overflow to visible, because FF sets it to hidden
+                element.css('overflow', 'visible');
+
                 // full width, including axis margins
                 var svgDims = getSvgElementDimensions(element);
                 scope.graphWidth = svgDims.width;
