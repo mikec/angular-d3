@@ -1,9 +1,17 @@
 <div>
     
+    <h1>fixed spacing</h1>
     <svg graph margin-x="35" margin-y="20" class="demo-graph" >
         <g axis domain="xDomain" orientation="x"></g>
         <g axis domain="yDomain" orientation="y"></g>
-        <g bars="barData"></g>
+        <g bars="barData" thickness="50" spacing="10"></g>
+    </svg>
+
+    <h1>responsive</h1>
+    <svg graph margin-x="35" margin-y="20" class="demo-graph" >
+        <g axis domain="xDomain" orientation="x"></g>
+        <g axis domain="yDomain" orientation="y"></g>
+        <g bars="barData" thickness="50"></g>
     </svg>
 
     <div class="btn disable-select" ng-click="generateData()">Generate Data</div>

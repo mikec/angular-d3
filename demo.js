@@ -1,4 +1,10 @@
-angular.module('demo', ['ui.router', 'ngd3'])
+angular.module('demo', [
+    'ui.router',
+    'ngd3',
+    'ngd3.axis',
+    'ngd3.bars',
+    'ngd3.lines'
+])
 
 .config(['$stateProvider', '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
@@ -84,7 +90,7 @@ function($scope, domain) {
 
     function getGeneratedData() {
         var d = [];
-        for(var i = 0; i < 55; i++) {
+        for(var i = 0; i < 10; i++) {
             d.push(Math.random()*maxVal);
         }
         return d;
