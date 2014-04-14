@@ -8,8 +8,9 @@ ngd3.directive('graph', ['scale',  function(scale) {
 
             function setLayoutData(scope, element) {
                 // full width, including axis margins
-                scope.graphWidth = element.prop('offsetWidth');
-                scope.graphHeight = element.prop('offsetHeight');
+                var svgDims = getSvgElementDimensions(element);
+                scope.graphWidth = svgDims.width;
+                scope.graphHeight = svgDims.height;
                 
                 // "inner" means between axis lines, excluding axis margins
                 scope.graphInnerWidth = scope.graphWidth - (scope.marginX * 2);
@@ -30,6 +31,22 @@ ngd3.directive('graph', ['scale',  function(scale) {
                 // time scales
                 scope.timeScaleX = scale.getTimeScale(scope.rangeStartX, scope.rangeStopX);
                 scope.timeScaleY = scale.getTimeScale(scope.rangeStartY, scope.rangeStopY);
+            }
+
+            function getSvgElementDimensions(svgElement) {
+                var dims = { width: 0, height: 0 };
+                if(svgElement) {
+                    dims.width = getPropValue('offsetWidth');
+                    dims.height = getPropValue('offsetHeight');
+                }
+
+                function getPropValue(propName) {
+                    return svgElement.prop(propName) || 
+                                angular.element(svgElement[0].parentElement).prop(propName) ||
+                                    0;
+                }
+
+                return dims;
             }
 
             return {
