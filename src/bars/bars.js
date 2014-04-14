@@ -4,7 +4,6 @@ angular.module('ngd3.bars', [])
 
     var autoInc = 0;
     var defaultBarThickness = 20;
-    var defaultBarSpacing = 1;
 
     return {
 
@@ -19,15 +18,30 @@ angular.module('ngd3.bars', [])
             var barThickness = $attrs.thickness > 0 ? 
                                     parseInt($attrs.thickness) : defaultBarThickness;
             var spacing = $attrs.spacing > 0 ?
-                                parseInt($attrs.spacing) : defaultBarSpacing;
+                                parseInt($attrs.spacing) : null;
+
+            var barData;
 
             $scope.$watch($attrs.bars, function(data) {
-                if($scope.graphScopeSet) {
+                barData = data;
+                if($scope.graphScopeSet && barData && barData.length > 0) {
                     var xScale = $scope.timeScaleX;
                     var yScale = $scope.linearScaleY;
 
                     var bars = elemNode.selectAll("g")
-                                        .data(data);
+                                        .data(barData);
+
+                    if(!spacing && spacing != 0) {
+                        spacing = getAutoFitSpacing();
+                    }
+
+                    if((barThickness + spacing) * barData.length > $scope.graphInnerWidth) {
+                        // if barThickness + spacing will cause the bars to exceed the width of
+                        // the graph, remove all spacing and maximize the bar thickness
+                        spacing = 0;
+                        barThickness = $scope.graphInnerWidth / barData.length;
+                    }
+
 
                     bars.transition()
                         .attr("transform", function(d, i) {
@@ -54,6 +68,23 @@ angular.module('ngd3.bars', [])
                 }
 
             });
+
+            $scope.$on('graphResize', function(event) {
+                
+            });
+
+            function getAutoFitSpacing() {
+                var spacing = 0;
+                if(barData) {
+                    var numBars = barData.length;
+                    if(numBars > 0) {
+                        var widthPerBar = ($scope.graphInnerWidth + barThickness) / (numBars + 1);
+                        var spacing = widthPerBar - barThickness;
+                        if(spacing < 0) spacing = 0;
+                    }
+                }
+                return spacing;
+            }
 
         }
 
