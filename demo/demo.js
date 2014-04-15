@@ -26,6 +26,11 @@ function($stateProvider, $urlRouterProvider) {
             url: '/axes',
             templateUrl: 'partials/axes.html',
             controller: 'AxesCtrl'
+        })
+        .state('bars-and-lines', {
+            url: '/bars-and-lines',
+            templateUrl: 'partials/bars-and-lines.html',
+            controller: 'BarsAndLinesCtrl'
         });
 }])
 
@@ -105,6 +110,64 @@ function($scope, domain) {
     $scope.xDomain = [d1, d2];
 
     $scope.yDomain = [0, 1000];
+
+}])
+
+.controller('BarsAndLinesCtrl', ['$scope', 'domain',
+function($scope, domain) {
+
+    var maxVal = 15;
+
+    $scope.generateData = function() {
+
+        $scope.barData = getGeneratedBarData();
+        $scope.lineData = getGeneratedLineData();
+
+        var lineDomains = domain.getLineDataDomains($scope.lineData);
+
+        $scope.domainX = lineDomains.x;
+        $scope.domainY = [0, maxVal];
+
+    }
+
+    $scope.generateData();
+
+    function getGeneratedBarData() {
+        var d = [];
+        for(var i = 0; i < 10; i++) {
+            d.push(Math.random()*maxVal);
+        }
+        return d;
+    }
+
+    function getGeneratedLineData() {
+        var data = {};
+
+        var cities = [
+            "New York",
+            "Boston"
+        ];
+
+        var numDataPoints = 100;
+        var currentDate = new Date();
+
+        for(var i in cities) {
+
+            var city = cities[i];
+            data[city] = [];
+
+            var v = (i * 15);
+            for(var j=0; j < numDataPoints; j++) {
+                var val = v + (Math.floor((Math.random()*10)+1) - 5);
+                var date = new Date();
+                date.setDate(currentDate.getDate() + j);
+                data[city][j] = [date, val];
+            }
+
+        }
+
+        return data;
+    }
 
 }]);
 
