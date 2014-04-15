@@ -44,6 +44,11 @@ module.exports = function(grunt) {
             }
         },
 
+        watch: {
+            files: ['src/**/*.js'],
+            tasks: ['default']
+        },
+
         'gh-pages': {
             options: {
                 base: 'demo'
@@ -55,6 +60,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
 
     grunt.registerTask('default', [
