@@ -21,16 +21,27 @@ angular.module('ngd3.bars', [])
                                 parseInt($attrs.spacing) : null;
             var autoFit = (barSpacing === null);
 
-            var barData, xScale, yScale, bars, rects;
+            var barData, numBars, xScale, yScale, bars, rects;
 
             $scope.$watch($attrs.bars, function(data) {
                 barData = data;
-                if($scope.graphScopeSet && barData && barData.length > 0) {
+                numBars = 0;
+                for(var i in barData) {
+                    numBars++;
+                }
+                if($scope.graphScopeSet && barData && numBars > 0) {
                     xScale = $scope.timeScaleX;
                     yScale = $scope.linearScaleY;
 
-                    bars = elemNode.selectAll("g")
-                                        .data(barData);
+                    var dt = [];
+                    for(var i in barData) {
+                        dt.push({
+                            key: i,
+                            value: barData[i]
+                        });
+                    }
+
+                    bars = elemNode.selectAll("g").data(dt);
 
                     var layout = calculateBarLayout();
 
@@ -46,7 +57,7 @@ angular.module('ngd3.bars', [])
 
                     rects.transition()
                         .attr("height", function(d) {
-                            return $scope.graphInnerHeight - yScale(d);
+                            return $scope.graphInnerHeight - yScale(d.value);
                         });
                 }
 
@@ -68,7 +79,7 @@ angular.module('ngd3.bars', [])
                 if(barNodes) {
                     return barNodes.attr("transform", function(d, i) {
                         var x = ($scope.marginX + spacing) + i * (barThickness + spacing);
-                        var y = yScale(d) + $scope.marginY;
+                        var y = yScale(d.value) + $scope.marginY;
                         return "translate(" + x + "," + y + ")"; 
                     });
                 }
@@ -79,8 +90,7 @@ angular.module('ngd3.bars', [])
                     spacing: barSpacing,
                     thickness: barThickness
                 };
-                if(barData && barData.length > 0) {
-                    var numBars = barData.length;
+                if(barData && numBars > 0) {
                     if(autoFit) {
                         layout.spacing = getAutoFitSpacing();
                     }
@@ -98,7 +108,6 @@ angular.module('ngd3.bars', [])
             function getAutoFitSpacing() {
                 var autoFitSpacing = 0;
                 if(barData) {
-                    var numBars = barData.length;
                     if(numBars > 0) {
                         var widthPerBar = ($scope.graphInnerWidth + barThickness) / (numBars + 1);
                         autoFitSpacing = widthPerBar - barThickness;

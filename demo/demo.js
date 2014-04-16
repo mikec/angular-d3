@@ -94,9 +94,10 @@ function($scope, domain) {
     $scope.generateData();
 
     function getGeneratedData() {
-        var d = [];
+        var d = {};
+        var keys = ['one','two','three','four','five','six','seven','eight','nine','ten'];
         for(var i = 0; i < 10; i++) {
-            d.push(Math.random()*maxVal);
+            d[keys[i]] = Math.random()*maxVal;
         }
         return d;
     }
