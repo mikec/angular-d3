@@ -1,5 +1,6 @@
 angular.module('demo', [
     'ui.router',
+    'hljs',
     'ngd3',
     'ngd3.axis',
     'ngd3.bars',
@@ -33,6 +34,10 @@ function($stateProvider, $urlRouterProvider) {
             controller: 'BarsAndLinesCtrl'
         });
 }])
+
+.run(function() {
+    hljs.initHighlightingOnLoad();
+})
 
 .controller('LinesCtrl', ['$scope', 'domain', 
 function($scope, domain) {

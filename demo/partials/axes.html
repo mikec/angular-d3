@@ -7,6 +7,10 @@
         </svg>
     </div>
 
+    <div hljs language="javascript" class="highlight">function() {
+    var x = 'hello';
+}</div>
+
     <h1>y axis</h1>
     <div class="y-axis-graph">
         <svg graph margin-x="35" margin-y="20">
@@ -21,5 +25,9 @@
             <g axis orientation="y" domain="yDomain"></g>
         </svg>
     </div>
+
+    <script>
+        angular.element('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+    </script>
 
 </div>

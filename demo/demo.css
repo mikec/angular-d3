@@ -86,4 +86,19 @@ rect.bar {
     height: 200px;
 }
 
+/* code highlighting */
+
+.highlight pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+.highlight code {
+    padding: 0;
+}
+
 

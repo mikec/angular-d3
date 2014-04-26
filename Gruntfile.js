@@ -5,8 +5,11 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         copy: {
-            demo_required_js: {
+            demo_required_files: {
                 src: [
+                    'bower_components/highlightjs/highlight.pack.js',
+                    'bower_components/highlightjs/styles/github.css',
+                    'bower_components/angular-highlightjs/angular-highlightjs.js',
                     'bower_components/angular/angular.js',
                     'bower_components/d3/d3.js',
                     'bower_components/ui-router/release/angular-ui-router.js',
