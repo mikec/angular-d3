@@ -1,6 +1,7 @@
 angular.module('demo', [
     'ui.router',
     'hljs',
+    'menu',
     'ngd3',
     'ngd3.axis',
     'ngd3.bars',
@@ -13,6 +14,10 @@ function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/lines");
 
     $stateProvider
+        .state('guide', {
+            url: '/guide',
+            templateUrl: 'partials/guide.html'
+        })
         .state('lines', {
             url: '/lines',
             templateUrl: 'partials/lines.html',

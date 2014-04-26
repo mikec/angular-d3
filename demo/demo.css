@@ -40,6 +40,21 @@ body {
     padding: 20px;
 }
 
+.menu-content {
+    margin-right: 250px;
+}
+
+.menu {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+}
+
+.sub-menu a {
+    color: blue;
+    cursor: pointer;
+}
+
 .btn {
     position: relative;
     left: 35px; top: 20px;
