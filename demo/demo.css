@@ -54,6 +54,9 @@ body {
     color: blue;
     cursor: pointer;
 }
+.sub-menu a.active {
+    color: red;
+}
 
 .btn {
     position: relative;

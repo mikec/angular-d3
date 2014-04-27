@@ -12,7 +12,9 @@ function($location, $anchorScroll) {
                         '{{c.title}}' +
                         '<ul class="sub-menu">' +
                             '<li ng-repeat="t in c.topics">' +
-                                '<a ng-click="scrollTo(t.id)">{{t.title}}</a>' +
+                                '<a ng-click="scrollTo(t.id)" ' +
+                                    'ng-class="{active: t.active}" ' +
+                                    'id="item_{{t.id}}">{{t.title}}</a>' +
                             '</li>' +
                         '</ul>' +
                     '</li>' +
@@ -20,13 +22,15 @@ function($location, $anchorScroll) {
             '</div>',
         link: function($scope, $element, $attrs) {
 
+            var headings = [];
+            var activeTopic;
             $scope.categories = [];
 
-            angular.forEach($element.find('h1'), function(h1, i) {
-                var h1 = angular.element(h1);
+            $element.find('h1').each(function(i, h1) {
+                var h1 = $(h1);
                 var topics = [];
-                angular.forEach(h1.parent().find('h2'), function(h2, i) {
-                    var h2 = angular.element(h2);
+                h1.parent().find('h2').each(function(i, h2) {
+                    var h2 = $(h2);
                     var id = h2.html().replace(' ', '_');
                     h2.attr('id', id);
                     topics.push({
@@ -40,23 +44,62 @@ function($location, $anchorScroll) {
                 });
             });
 
+            updateHeaderPositions();
+            setActiveMenuItem();
+
+            $(window).resize(function() {
+                updateHeaderPositions();
+            });
+
+            $(window).scroll(function() {
+                var itemSet = setActiveMenuItem();
+                if(itemSet) $scope.$apply();
+            });
+
             $scope.scrollTo = function(id) {
                 $location.hash(id);
                 $anchorScroll();
             }
 
-            /*.forEach(function(i, el) {
+            function updateHeaderPositions() {
+                headings = $('h2').map(function(i, el) {
+                    return {
+                        top: $(el).offset().top,
+                        id: el.id
+                    };
+                });
+            }
 
-                if(!el.id) {
-                    el.id = el.html().replace(' ', '_');
+            function setActiveMenuItem() {
+                var h = getCurrentHeading();
+                if(!h) return;
+
+                if(activeTopic) {
+                    delete activeTopic.active;
                 }
 
-                return {
-                    top: angular.element(el).offset().top,
-                    id: el.id
+                for(var i in $scope.categories) {
+                    for(var j in $scope.categories[i].topics) {
+                        var t = $scope.categories[i].topics[j];
+                        if(t.id == h.id) {
+                            activeTopic = t;
+                            activeTopic.active = true;
+                            return true;
+                        }
+                    }
                 }
+            }
 
-            });*/
+            function getCurrentHeading() {
+                var h;
+                var top = $(window).scrollTop();
+                var i = headings.length;
+                while (i--) {
+                    h = headings[i];
+                    if (top >= h.top) return h;
+                }
+                return h;
+            }
 
         }
     }
