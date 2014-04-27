@@ -2,6 +2,7 @@ body {
     padding: 0;
     margin: 0;
     font: 10px sans-serif;
+    color: #666;
 }
 
 .disable-select {
@@ -11,37 +12,62 @@ body {
     user-select: none;
 }
 
+/* links */
+
+a {
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* header */
+
+.logo {
+    color: #868686;
+    padding: 13px 0 0 20px;
+    font-size: 18px;
+    font-weight: 100;
+}
+
 .header {
-    background: #6f5499;
+    background: rgba(241,241,241,.96);
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    position: fixed;
+    left: 0; right: 0; top: 0;
+    height: 50px;
     overflow: auto;
 }
 
 .header .nav-item {
-    float: left;
     border-right: 1px solid white;
-    padding: 0; margin: 0;
+    float: right;
+    padding-right: 20px;
 }
 
 .header .nav-item.active {
-    background: rgba(255,255,255,.2);
+
 }
 
 .header a {
     display: inline-block;
-    color: white;
     font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 20px;
 }
 
-.content {
-    padding: 20px;
+/* menu and content */
+
+ul {
+    padding: 0; margin: 0;
+}
+
+li {
+    list-style: none;
 }
 
 .menu-content {
-    margin-right: 250px;
+    margin-right: 200px;
 }
 
 .menu {
@@ -49,14 +75,50 @@ body {
     top: 80px;
     right: 20px;
 }
+.menu > li {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #696969;
+}
 
 .sub-menu a {
-    color: blue;
+    color: #bbb;
     cursor: pointer;
 }
 .sub-menu a.active {
-    color: red;
+    color: rgb(255, 162, 110);
 }
+.sub-menu > li {
+    font-size: 12px;
+    font-weight: 100;
+    margin-top: 5px;
+}
+
+.hr {
+    position: absolute;
+    border-top: 1px solid #ddd;
+    left: 80px;
+    right: 200px;
+}
+
+/* headings and content */
+
+h1 {
+    padding: 50px 0 0 80px;
+    font-size: 36px;
+    color: #696969;
+}
+
+h2 {
+    padding: 70px 0 0 80px;
+}
+
+p {
+    padding: 20px 0 0 80px;
+}
+
+/* graphs */
 
 .btn {
     position: relative;
