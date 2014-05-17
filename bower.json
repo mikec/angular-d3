@@ -8,6 +8,6 @@
     "d3": "3.4.3",
     "angular": "1.2.14",
     "ui-router": "git://github.com/angular-ui/ui-router#4f509d6393452c933aa5908939d0a17e47b59388",
-    "angular-highlightjs": "0.2.7"
+    "angular-highlightjs": "git://github.com/pc035860/angular-highlightjs#bc4b3776dc54e4bd3b5bf83b70faa5984a9df550"
   }
 }
