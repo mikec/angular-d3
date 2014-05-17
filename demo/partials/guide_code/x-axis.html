@@ -1,0 +1,24 @@
+<div>
+
+<div class="demo-graph x-axis" ng-controller="xAxisCtrl">
+    <svg graph margin-x="35" margin-y="20">
+        <g axis domain="xDomain"></g>
+    </svg>
+</div>
+
+<h4>View</h4>
+<div hljs language="xml" class="highlight"><svg graph margin-x="35" margin-y="20">
+    <g axis domain="xDomain"></g>
+</svg></div>
+
+<h4>Controller</h4>
+<div hljs language="javascript" class="highlight">// get today's date
+var d1 = new Date();
+
+// get the date 1 year from today
+var d2 = new Date(d1.getTime() + 365 * 24 * 60 * 60 * 1000);
+
+// set the domain for the X axis to a range from d1 to d2
+$scope.xDomain = [d1, d2];</div>
+
+</div>
