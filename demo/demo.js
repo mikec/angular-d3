@@ -181,5 +181,22 @@ function($scope, domain) {
         return data;
     }
 
-}]);
+}])
+
+.directive('htmlHighlight', function() {
+    return {
+        compile: function(tElement) {
+            var htmlStr = tElement.context.innerHTML
+                            .replace(/<!--/g, '')
+                            .replace(/-->/g, '')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;');
+
+            tElement.context.innerHTML = 
+                '<div hljs language="xml" class="highlight">' +
+                    htmlStr +
+                '</div>';
+        }
+    };
+});
 
