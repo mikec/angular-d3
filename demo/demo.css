@@ -1,7 +1,7 @@
 body {
     padding: 0;
     margin: 0;
-    font: 10px sans-serif;
+    font: 14px sans-serif;
     color: #666;
 }
 
@@ -98,27 +98,39 @@ li {
 .hr {
     position: absolute;
     border-top: 1px solid #ddd;
-    left: 80px;
+    left: 0;
     right: 200px;
 }
 
 /* headings and content */
 
+h1, h2, h3, h4 {
+    margin: 0;
+}
+
 h1 {
-    padding: 50px 0 0 80px;
+    padding: 80px 0 0 80px;
     font-size: 36px;
     color: #696969;
+    margin-bottom: 10px;
 }
 
 h2 {
-    padding: 70px 0 0 80px;
-}
-
-p {
     padding: 20px 0 0 80px;
 }
 
+p {
+    padding: 10px 0 0 80px;
+}
+
 /* graphs */
+
+.demo-graph {
+    border: 1px solid #ddd;
+    padding: 0px 0 20px 0;
+    border-radius: 3px;
+    font-size: 10px;
+}
 
 .btn {
     position: relative;
@@ -130,10 +142,6 @@ p {
     font-weight: bold;
     font-size: 24px;
     cursor: pointer;
-}
-
-.demo-graph {
-    height: 300px;
 }
 
 /* lines */
@@ -158,11 +166,11 @@ rect.bar {
     shape-rendering: crispEdges;
 }
 
-.x-axis-graph {
+.demo-graph.x-axis {
     height: 50px;
 }
 
-.y-axis-graph {
+.demo-graph.y-axis {
     height: 200px;
 }
 

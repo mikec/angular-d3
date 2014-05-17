@@ -2,6 +2,7 @@ angular.module('demo', [
     'ui.router',
     'hljs',
     'menu',
+    'guide.xAxis',
     'ngd3',
     'ngd3.axis',
     'ngd3.bars',
